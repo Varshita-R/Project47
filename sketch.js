@@ -51,7 +51,7 @@ function draw() {
 
   spawnDice();
 
- //The dice should disappear after the bullet touches it.
+ //Only the dice should disappear after the bullet touches it.
   if(diceGroup.isTouching(bulletGroup)){
     score = score+1;
     //diceGroup.destroy();
