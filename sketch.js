@@ -41,21 +41,15 @@ function draw() {
   jet.bounce(edges[0]);
   jet.bounce(edges[1]);
 
-  if(keyDown("space")){
-    bullet = createSprite(jet.x,500,10,10);
-    bullet.addImage("bulletImg",bulletImg);
-    bullet.scale = 0.1;
-    bullet.velocityY = -5; 
-    bulletGroup.add(bullet);
-  }
-
+  spawnBullets();
   spawnDice();
 
- //Only the dice should disappear after the bullet touches it.
-  if(diceGroup.isTouching(bulletGroup)){
-    score = score+1;
-    //diceGroup.destroy();
-    removeDice();
+  for(var i=0; i<diceGroup.length; i++){
+    if(diceGroup.get(i).isTouching(bulletGroup)){
+      diceGroup.get(i).destroy();
+      bulletGroup.destroyEach();
+      score = score+2;
+    }
   }
  
   fill("#A020F0")
@@ -65,18 +59,26 @@ function draw() {
   drawSprites();
 }
 
+
 function spawnDice(){
   if(frameCount % 75 === 0){
   dice = createSprite(random(100,700),0,10,10);
   dice.addImage("diceImg",diceImg);
   dice.scale = 0.2;
   dice.velocityY = 2;
-  
-  function removeDice(){
-  dice.destroy();
-  }
   dice.lifetime = 315;
   diceGroup.add(dice);
   }
-  
+
 }
+
+function spawnBullets(){
+  if(keyDown("space")){
+    bullet = createSprite(jet.x,500,10,10);
+    bullet.addImage("bulletImg",bulletImg);
+    bullet.scale = 0.1;
+    bullet.velocityY = -5; 
+    bulletGroup.add(bullet);
+  }
+}
+
